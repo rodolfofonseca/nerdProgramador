@@ -1,3 +1,8 @@
+<?php
+require_once 'class/Controller.php';
+$controller = new Controller();
+$versions = (array) $controller->find_all('versions', [], ['id_version' => false]);
+?>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -19,9 +24,6 @@
             </thead>
             <tbody>
                 <?php
-                require_once 'class/Controller.php';
-                $controller = new Controller();
-                $versions = (array) $controller->find_all('versions', [], ['id_version' => false]);
                 if(empty($versions) == false){
                     foreach($versions as $version){
                         $id_version = (int) 0;
@@ -60,5 +62,18 @@
                 ?>
             </tbody>
         </table>
+        <br/>
+        <div class="container">
+            <form method="POST" action="txt.php">
+                <select name="version" class="field field_120px">
+                    <?php
+                    foreach($versions as $version){
+                        echo "<option value='".$version['id_version']."'>".$version['version']."/".$version['software']."</option>";
+                    }
+                    ?>
+                </select>
+                <input type="submit" class="btn" value="Gerar TXT"/>
+            </form>
+        </div>
     </body>
 </html>
